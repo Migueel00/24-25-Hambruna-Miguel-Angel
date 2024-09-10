@@ -5,7 +5,7 @@ fetch('https://gist.githubusercontent.com/Oskar-Dam/62e7175dc542af53a9d18cb29242
     donutWithMoreSugar(data);
     donutWithMoreIron(data);
     donutWithMoreProtein(data);
-
+    donutWithLessFiber(data);
 
     // Parte 2 
     listAllDonutsAndItsCarbs(data);
@@ -80,6 +80,26 @@ function donutWithMoreProtein(data){
     }
 
     console.log("The donut with more proteine is " + name + " with " + protein + " g of proteine");
+}
+
+function donutWithLessFiber(data){
+    let name;
+    let lessFibre = data.items.item[0].nutrition_facts.nutrition.carbohydrate.carbs_detail.type.fibre;
+
+    for(let i = 0; i < data.items.item.length; i++){
+
+        const donut = data.items.item[i];
+
+        const fibre = donut.nutrition_facts.nutrition.carbohydrate.carbs_detail.type.fibre;
+
+        if(fibre < lessFibre){
+
+            lessFibre = fibre;
+            name = donut.name;
+        }
+    }
+
+    console.log("The donut with less fibre is " + name + " with " + lessFibre + "g");
 }
 
 
