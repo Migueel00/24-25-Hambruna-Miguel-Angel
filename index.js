@@ -4,6 +4,8 @@ fetch('https://gist.githubusercontent.com/Oskar-Dam/62e7175dc542af53a9d18cb29242
     // Parte 1
     donutWithMoreSugar(data);
     donutWithMoreIron(data);
+    donutWithMoreProtein(data);
+
 
     // Parte 2 
     listAllDonutsAndItsCarbs(data);
@@ -46,7 +48,6 @@ function donutWithMoreIron(data){
                 const percent           = vitamine.percent.split('%');
                 let   percentNumber     = parseInt(percent[0]);
                 
-                console.log(percentNumber);
 
                 if(percentNumber > iron){
                     
@@ -59,6 +60,28 @@ function donutWithMoreIron(data){
     
     console.log("The donut with more iron is " + name + " with " + iron + "% percent of iron");
 }
+
+function donutWithMoreProtein(data){
+    let name;
+    let protein = 0;
+
+    for(let i = 0; i < data.items.item.length; i++){
+
+        const donut                 = data.items.item[i];
+        const proteines             = donut.nutrition_facts.nutrition.proteine;
+        const proteinesGrams        = proteines.split("g");
+        const proteinesGramsParse   = parseInt(proteinesGrams[0]);
+        
+        if(proteinesGramsParse > protein){
+
+            protein = proteinesGramsParse;
+            name    = donut.name;
+        }
+    }
+
+    console.log("The donut with more proteine is " + name + " with " + protein + " g of proteine");
+}
+
 
 function listAllDonutsAndItsCarbs(data){
 
