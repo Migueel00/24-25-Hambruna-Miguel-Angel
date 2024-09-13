@@ -39,6 +39,8 @@ fetch('https://gist.githubusercontent.com/Oskar-Dam/62e7175dc542af53a9d18cb29242
 
     listAllDonutsWithHisPosibleButters(data);
 
+    console.log("-------------------------------------");
+    calculateHowMuchDonutsPerTypeCanBuy(data);
 });
 
 function donutWithMoreSugar(data){
@@ -311,5 +313,23 @@ function listAllDonutsWithHisPosibleButters(data){
             console.log(topping.type);
         }
 
+    }
+}
+
+function calculateHowMuchDonutsPerTypeCanBuy(data){
+    
+    const donuts = listDonuts(data);
+
+    for(let i = 0; i < donuts.length; i++){
+        
+        const donut = donuts[i];
+        const ppu   = donut.ppu;
+
+        const money = 4;
+
+        const numberOfDonuts = Math.floor(money / ppu);
+        const change         = (money - numberOfDonuts * ppu).toFixed(2);
+
+        console.log("You can buy " + numberOfDonuts + " Of " + donut.name + " ppu: " + ppu +" with " + money + " and the change is " + change);
     }
 }
