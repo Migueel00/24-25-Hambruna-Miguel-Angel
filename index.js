@@ -30,6 +30,8 @@ fetch('https://gist.githubusercontent.com/Oskar-Dam/62e7175dc542af53a9d18cb29242
     showTheMeadiaOfCals(data);
     console.log("-------------------------------------");
     showTheTotalOfFatsSaturades(data);
+    console.log("-------------------------------------");
+    showTheMediaOfVitamines(data);
 
 
 });
@@ -76,7 +78,7 @@ function donutWithMoreIron(data){
             if(vitamine.type === 'Iron'){
 
                 const percent           = separateStringAndReturnInt(vitamine.percent, '%');
-                
+
                 if(percent > iron){
                     
                     iron = percent;
@@ -91,36 +93,33 @@ function donutWithMoreIron(data){
 
 function donutWithMoreProtein(data){
     let name;
-    let protein = 0;
+    let theMostProtein = 0;
 
-    for(let i = 0; i < data.items.item.length; i++){
+    const donuts = listDonuts(data);
 
-        const donut                 = data.items.item[i];
-        const proteines             = donut.nutrition_facts.nutrition.proteine;
-        const proteinesGrams        = proteines.split("g");
-        const proteinesGramsParse   = parseInt(proteinesGrams[0]);
+    for(let i = 0; i < donuts.length; i++){
+
+        const donut       = donuts[i];
+        const proteine    = separateStringAndReturnInt(donut.nutrition_facts.nutrition.proteine, "g");
         
-        if(proteinesGramsParse > protein){
+        if(proteine > theMostProtein){
 
-            protein = proteinesGramsParse;
-            name    = donut.name;
+            theMostProtein = proteine;
+            name           = donut.name;
         }
     }
 
-    console.log("The donut with more proteine is " + name + " with " + protein + " g of proteine");
+    console.log("The donut with more proteine is " + name + " with " + theMostProtein + " g of proteine");
 }
 
 function donutWithLessFiber(data){
     let name;
-    let fibreString = data.items.item[0].nutrition_facts.nutrition.carbohydrate.carbs_detail.type.fibre.split("g");
-    let lessFibre   = parseInt(fibreString[0]);
-    
-    for(let i = 0; i < data.items.item.length; i++){
+    const donuts    = listDonuts(data);
+    let lessFibre   = separateStringAndReturnInt(donuts[0].nutrition_facts.nutrition.carbohydrate.carbs_detail.type.fibre, "g");
+    for(let i = 0; i < donuts.length; i++){
 
-        const donut = data.items.item[i];
-
-        let aux     = donut.nutrition_facts.nutrition.carbohydrate.carbs_detail.type.fibre.split("g");
-        let fibre   = parseInt(aux[0]);
+        const donut = donuts[i];
+        let fibre = separateStringAndReturnInt(donut.nutrition_facts.nutrition.carbohydrate.carbs_detail.type.fibre, "g");
 
         if(fibre <= lessFibre){
 
@@ -213,4 +212,53 @@ function separateStringAndReturnInt(string, separator){
     const number    = parseInt(aux[0]);
 
     return number;
+}
+
+function showTheMediaOfVitamines(data){
+
+    const donuts            = listDonuts(data);
+
+
+    let vitaminATotal       = 0;
+    let vitaminCTotal       = 0;
+    let calciumTotal        = 0;
+    let ironTotal           = 0;
+
+    for(let i = 0; i < donuts.length; i++){
+
+        const donut = donuts[i];
+
+        const vitamines = donut.nutrition_facts.nutrition.vitamines;
+
+        for(let k = 0; k < vitamines.length; k++){
+            const vitamine = vitamines[k];
+
+            switch(vitamine.type){
+
+                case 'Vitamin A':
+                    vitaminATotal += separateStringAndReturnInt(vitamine.percent, "%");
+                    break;
+                case 'Vitamin C':
+                    vitaminCTotal += separateStringAndReturnInt(vitamine.percent, "%");
+                    break;
+                case 'Calcium':
+                    calciumTotal += separateStringAndReturnInt(vitamine.percent, "%");
+                    break;
+                case 'Iron':
+                    ironTotal += separateStringAndReturnInt(vitamine.percent, "%");
+                    break;
+            }
+        }
+    }
+
+    const totalNumberOfDonuts = donuts.length;
+    const vitaminAMedia       = vitaminATotal / totalNumberOfDonuts;
+    const vitaminCMedia       = vitaminCTotal / totalNumberOfDonuts;
+    const calciumMedia        = calciumTotal  / totalNumberOfDonuts;
+    const ironMedia           = ironTotal     / totalNumberOfDonuts;
+
+    console.log("The media of vitamin A is " + vitaminAMedia + " %");
+    console.log("The media of vitamin C is " + vitaminCMedia + " %");
+    console.log("The media of calcium is " + calciumMedia + " %");
+    console.log("The media of iron is " + ironMedia + " %");
 }
