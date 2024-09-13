@@ -290,3 +290,26 @@ function listAllDonutsWithHisPosibleButters(data){
 
     }
 }
+
+function listAllDonutsWithHisPosibleButters(data){
+
+    const donuts = listDonuts(data);
+
+    for(let i = 0; i < donuts.length; i++){
+
+        const donut      = donuts[i];
+        const toppings   = donut.topping;
+
+        console.log("-------------------------------------");
+        console.log("Posible extra toppings for " + donut.name );
+        console.log("-------------------------------------");
+        
+        for(let k = 0; k < toppings.length; k++){
+
+            const topping = toppings[k];
+
+            console.log(topping.type);
+        }
+
+    }
+}
