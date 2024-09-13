@@ -33,6 +33,11 @@ fetch('https://gist.githubusercontent.com/Oskar-Dam/62e7175dc542af53a9d18cb29242
     console.log("-------------------------------------");
     showTheMediaOfVitamines(data);
 
+    console.log("-------------------------------------");
+    console.log("-------------------------------------");
+    console.log("-------------------------------------");
+
+    listAllDonutsWithHisPosibleButters(data);
 
 });
 
@@ -261,4 +266,27 @@ function showTheMediaOfVitamines(data){
     console.log("The media of vitamin C is " + vitaminCMedia + " %");
     console.log("The media of calcium is " + calciumMedia + " %");
     console.log("The media of iron is " + ironMedia + " %");
+}
+
+function listAllDonutsWithHisPosibleButters(data){
+
+    const donuts = listDonuts(data);
+
+    for(let i = 0; i < donuts.length; i++){
+
+        const donut     = donuts[i];
+
+        const batters   = donut.batters.batter;
+        console.log("-------------------------------------");
+        console.log("Posible batters for " + donut.name );
+        console.log("-------------------------------------");
+        
+        for(let k = 0; k < batters.length; k++){
+
+            const batter = batters[k];
+
+            console.log(batter.type);
+        }
+
+    }
 }
