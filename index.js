@@ -41,6 +41,17 @@ fetch('https://gist.githubusercontent.com/Oskar-Dam/62e7175dc542af53a9d18cb29242
 
     console.log("-------------------------------------");
     calculateHowMuchDonutsPerTypeCanBuy(data);
+
+    console.log("-------------------------------------");
+    changeTheColesterol(data);
+    console.log("-------------------------------------");
+    changeTheAmountOfCarbohydrates(data);
+    console.log("-------------------------------------");
+    addAVitamineToADonut(data);
+    console.log("-------------------------------------");
+    changeTheDailyValueForAllDonuts(data); 
+    console.log("-------------------------------------");
+    addANewAtribute(data);
 });
 
 function donutWithMoreSugar(data){
@@ -332,4 +343,100 @@ function calculateHowMuchDonutsPerTypeCanBuy(data){
 
         console.log("You can buy " + numberOfDonuts + " Of " + donut.name + " ppu: " + ppu +" with " + money + " and the change is " + change);
     }
+}
+
+function changeTheColesterol(data){
+
+    // const donutsOriginal = listDonuts(data);
+    const donuts         = listDonuts(data);
+
+    for(let i = 0; i < donuts.length; i++){
+
+        const donut = donuts[i];
+
+        const cholesterol = separateStringAndReturnInt(donut.nutrition_facts.nutrition.cholesterol.amount, "mg");
+        
+        console.log("The cholesterol of " + donut.name + "is: " + cholesterol);
+        console.log("The trans:" + donut.nutrition_facts.nutrition.fat.fat_type.trans);
+        if(cholesterol > 12){
+
+            donut.nutrition_facts.nutrition.fat.fat_type.trans = "3.2g";
+        }
+        console.log("Changed: " + donut.nutrition_facts.nutrition.fat.fat_type.trans); 
+    }
+
+}
+
+function changeTheAmountOfCarbohydrates(data){
+
+    const donuts    = listDonuts(data);
+
+    for(let i = 0; i < donuts.length; i++){
+        
+        const donut = donuts[i];
+
+        const sugar = separateStringAndReturnInt(donut.nutrition_facts.nutrition.carbohydrate.carbs_detail.type.sugars, "g");
+        console.log("The sugar of " + donut.name + " is " + sugar + "gr");
+
+        if(sugar > 50){
+
+            donut.nutrition_facts.nutrition.carbohydrate.carbs_detail.amount = "42g";
+        }
+
+        console.log("Changed: " + donut.nutrition_facts.nutrition.carbohydrate.carbs_detail.amount);
+    }
+}
+
+function addAVitamineToADonut(data){
+
+    const donuts = listDonuts(data);
+
+    for(let i = 0; i < donuts.length; i++){
+
+        const donut = donuts[i];
+
+        if(donut.name === 'Magic Fusion'){
+
+            const nictacina = {
+                type: "Nictacina",
+                percent: "2%"
+            }
+
+            donut.nutrition_facts.nutrition.vitamines.push(nictacina);
+        }
+
+        console.log(donut.nutrition_facts.nutrition.vitamines);
+    }
+}
+
+function changeTheDailyValueForAllDonuts(data){
+
+    const donuts = listDonuts(data);
+
+    for(let i = 0; i < donuts.length; i++){
+
+        const donut = donuts[i];
+
+        console.log("Donut " + donut.name + " daily value:  " + donut.nutrition_facts.nutrition.carbohydrate.daily_value);
+        donut.nutrition_facts.nutrition.carbohydrate.daily_value = "53%";
+        console.log("Changes to: " + donut.nutrition_facts.nutrition.carbohydrate.daily_value);
+    }
+}
+
+
+function addANewAtribute(data){
+    const donuts = listDonuts(data);
+
+    for(let i = 0; i < donuts.length; i++){
+
+        const donut = donuts[i];
+
+        if(donut.name === 'Relaxing Alchemy'){
+            console.log("Adding new alergen to Relaxing Alchemy");
+            donut.alergen = "Gluten Free";
+            console.log(donut);
+        }
+    }
+
+    
 }
